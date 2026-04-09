@@ -14,12 +14,22 @@ function initWhatsAppClient() {
   initializing = true;
   const authDataPath = process.env.WWEBJS_AUTH_PATH;
   const executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || puppeteer.executablePath();
+  const protocolTimeout = Number(process.env.PUPPETEER_PROTOCOL_TIMEOUT || 120000);
+  const launchTimeout = Number(process.env.PUPPETEER_LAUNCH_TIMEOUT || 120000);
   client = new Client({
     authStrategy: authDataPath ? new LocalAuth({ dataPath: authDataPath }) : new LocalAuth(),
     puppeteer: {
       headless: true,
       executablePath,
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      protocolTimeout,
+      timeout: launchTimeout,
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-dev-shm-usage",
+        "--no-zygote",
+        "--single-process",
+      ],
     },
   });
 
@@ -65,7 +75,11 @@ function initWhatsAppClient() {
     .catch((error) => {
       initializing = false;
       ready = false;
-      console.error("[WhatsApp] Initialization error:", error.message);
+      const msg =
+        error && typeof error === "object"
+          ? error.stack || error.message || JSON.stringify(error)
+          : String(error);
+      console.error("[WhatsApp] Initialization error:", msg);
       scheduleReconnect();
     });
 
