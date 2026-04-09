@@ -16,8 +16,10 @@ function initWhatsAppClient() {
   const executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || puppeteer.executablePath();
   const protocolTimeout = Number(process.env.PUPPETEER_PROTOCOL_TIMEOUT || 120000);
   const launchTimeout = Number(process.env.PUPPETEER_LAUNCH_TIMEOUT || 120000);
+  const authTimeoutMs = Number(process.env.WWEBJS_AUTH_TIMEOUT_MS || 180000);
   client = new Client({
     authStrategy: authDataPath ? new LocalAuth({ dataPath: authDataPath }) : new LocalAuth(),
+    authTimeoutMs,
     puppeteer: {
       headless: true,
       executablePath,

@@ -15,6 +15,14 @@ if (!process.env.PUPPETEER_CACHE_DIR) {
   process.env.PUPPETEER_CACHE_DIR = "/tmp/puppeteer";
 }
 
+process.on("unhandledRejection", (reason) => {
+  console.error("[Process] Unhandled promise rejection:", reason);
+});
+
+process.on("uncaughtException", (err) => {
+  console.error("[Process] Uncaught exception:", err);
+});
+
 // In production, restrict CORS to your web app origin if you set CORS_ORIGIN.
 // Example: CORS_ORIGIN=https://yourdomain.com
 app.use(
