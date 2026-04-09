@@ -9,6 +9,12 @@ const { initWhatsAppClient } = require("./services/whatsapp");
 const app = express();
 const PORT = Number(process.env.PORT || 3000);
 
+// Render (and some Linux hosts) can have a non-writable default Puppeteer cache dir.
+// Force a writable cache path so `puppeteer browsers install chrome` works.
+if (!process.env.PUPPETEER_CACHE_DIR) {
+  process.env.PUPPETEER_CACHE_DIR = "/tmp/puppeteer";
+}
+
 // In production, restrict CORS to your web app origin if you set CORS_ORIGIN.
 // Example: CORS_ORIGIN=https://yourdomain.com
 app.use(

@@ -4,6 +4,7 @@
   "description": "WhatsApp OTP authentication backend",
   "main": "server.js",
   "scripts": {
+    "prestart": "npx puppeteer browsers install chrome",
     "start": "node server.js",
     "postinstall": "npx puppeteer browsers install chrome"
   },
