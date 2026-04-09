@@ -4,9 +4,9 @@
   "description": "WhatsApp OTP authentication backend",
   "main": "server.js",
   "scripts": {
-    "prestart": "PUPPETEER_CACHE_DIR=/tmp/puppeteer npx puppeteer browsers install chrome",
+    "prestart": "npx puppeteer browsers install chrome@146.0.7680.153",
     "start": "node server.js",
-    "postinstall": "PUPPETEER_CACHE_DIR=/tmp/puppeteer npx puppeteer browsers install chrome"
+    "postinstall": "npx puppeteer browsers install chrome@146.0.7680.153"
   },
   "keywords": [
     "whatsapp",
@@ -23,7 +23,7 @@
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.6.2",
-    "puppeteer": "^23.0.0",
+    "puppeteer": "^24.0.0",
     "qrcode-terminal": "^0.12.0",
     "uuid": "^9.0.1",
     "whatsapp-web.js": "^1.26.0"

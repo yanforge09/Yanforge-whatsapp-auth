@@ -1,5 +1,6 @@
 const { Client, LocalAuth } = require("whatsapp-web.js");
 const qrcode = require("qrcode-terminal");
+const puppeteer = require("puppeteer");
 
 let client;
 let ready = false;
@@ -11,10 +12,12 @@ function initWhatsAppClient() {
 
   initializing = true;
   const authDataPath = process.env.WWEBJS_AUTH_PATH;
+  const executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || puppeteer.executablePath();
   client = new Client({
     authStrategy: authDataPath ? new LocalAuth({ dataPath: authDataPath }) : new LocalAuth(),
     puppeteer: {
       headless: true,
+      executablePath,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     },
   });
