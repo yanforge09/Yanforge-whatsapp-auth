@@ -4,7 +4,7 @@ const cors = require("cors");
 require("dotenv").config({ override: true });
 
 const authRoutes = require("./routes/auth");
-const { initWhatsAppClient } = require("./services/whatsapp");
+const { initWhatsAppClient, isReady, getLatestQr } = require("./services/whatsapp");
 
 const app = express();
 const PORT = Number(process.env.PORT || 3000);
@@ -28,6 +28,15 @@ app.get("/", (req, res) => {
   res.json({
     success: true,
     message: "Yanforge WhatsApp OTP Auth API is running",
+  });
+});
+
+app.get("/api/auth/whatsapp-status", (req, res) => {
+  res.json({
+    success: true,
+    ready: isReady(),
+    hasQr: Boolean(getLatestQr()),
+    qr: getLatestQr() || null,
   });
 });
 

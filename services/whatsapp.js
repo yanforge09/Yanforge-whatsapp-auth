@@ -6,6 +6,7 @@ let client;
 let ready = false;
 let initializing = false;
 let reconnectTimer;
+let lastQr;
 
 function initWhatsAppClient() {
   if (client || initializing) return client;
@@ -24,6 +25,7 @@ function initWhatsAppClient() {
 
   client.on("qr", (qr) => {
     ready = false;
+    lastQr = qr;
     console.log("\n[WhatsApp] QR received. Scan this once from WhatsApp:");
     qrcode.generate(qr, { small: true });
   });
@@ -109,8 +111,13 @@ function isReady() {
   return ready;
 }
 
+function getLatestQr() {
+  return lastQr;
+}
+
 module.exports = {
   initWhatsAppClient,
   sendOTP,
   isReady,
+  getLatestQr,
 };
